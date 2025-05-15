@@ -13,6 +13,9 @@ A Flask application that uses Google's Gemini API to generate professional trave
 - Download itineraries as PDF with proper text wrapping
 - Store user history in SQLite database
 
+
+
+
 ## Installation
 
 1. Clone this repository
@@ -33,6 +36,11 @@ A Flask application that uses Google's Gemini API to generate professional trave
 4. View your generated itinerary with time zone information and flight details
 5. Download the itinerary as a PDF
 6. Access your history of generated itineraries
+## Demo
+
+| Homepage | Result Page |
+|----------|-------------|
+| ![Homepage](https://github.com/user-attachments/assets/59bfed26-facd-4a18-81cf-c39cea96bfed) | ![Result Page](https://github.com/user-attachments/assets/7eaac88c-860a-4339-a91c-8bf746baab41) |
 
 
 ## Requirements
