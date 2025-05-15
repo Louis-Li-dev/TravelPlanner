@@ -51,3 +51,6 @@ A Flask application that uses Google's Gemini API to generate professional trave
 - ReportLab (for PDF generation)
 - SQLite (for database)
 - PyTZ (for time zone calculations)
+
+## Citation
+Please kindly cite this repo in your modified, distributed, or released project using this.
