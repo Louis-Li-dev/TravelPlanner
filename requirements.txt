@@ -1,6 +1,6 @@
-flask==2.3.3
-google-genai==0.3.1
-flask-sqlalchemy==3.1.1
-reportlab==4.0.4
-python-dotenv==1.0.0
-pytz==2023.3
+flask
+google-genai
+flask-sqlalchemy
+reportlab
+python-dotenv
+pytz
