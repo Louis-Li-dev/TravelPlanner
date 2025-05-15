@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Travel Itinerary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <i class="fas fa-plane"></i>
+                    TravelPlan AI
+                </a>
+                <nav>
+                    <ul>
+                        {% if session.user_id %}
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li><a href="/history">History</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                        {% else %}
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="/register">Register</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="itinerary-header">
+            <h1>{{ home_country }} to {{ destination }}</h1>
+            <p>Your personalized travel itinerary</p>
+        </div>
+        
+        <div class="card">
+            <div class="itinerary-details">
+                <div class="detail-item">
+                    <h4>Duration</h4>
+                    <p>{{ duration }} days</p>
+                </div>
+                <div class="detail-item">
+                    <h4>Budget</h4>
+                    <p>{{ budget }}</p>
+                </div>
+                <div class="detail-item">
+                    <h4>Party Size</h4>
+                    <p>{{ party_size }}</p>
+                </div>
+                <div class="detail-item">
+                    <h4>Time Difference</h4>
+                    <p>{{ time_difference }}</p>
+                </div>
+                <div class="detail-item">
+                    <h4>Interests</h4>
+                    <p>{{ interests }}</p>
+                </div>
+            </div>
+            
+            {% if itinerary.flight_info %}
+            <div class="flight-info">
+                <h3><i class="fas fa-plane-departure"></i> Flight Information</h3>
+                
+                <!-- Recommended Airlines with links -->
+                <div class="flight-detail">
+                    <div class="flight-label">Recommended Airlines:</div>
+                    <div class="flight-value">
+                        {% for airline, link in itinerary.flight_info.airlines_with_links %}
+                            <a href="{{ link }}" target="_blank">{{ airline }}</a><br>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Estimated Flight Duration -->
+                <div class="flight-detail">
+                    <div class="flight-label">Estimated Duration:</div>
+                    <div class="flight-value">{{ itinerary.flight_info.estimated_flight_duration }}</div>
+                </div>
+                
+                <!-- Estimated Cost -->
+                <div class="flight-detail">
+                    <div class="flight-label">Estimated Cost:</div>
+                    <div class="flight-value">${{ itinerary.flight_info.estimated_flight_cost }}</div>
+                </div>
+            </div>
+            {% endif %}
+
+            
+            <div class="travel-requirements">
+                <h3><i class="fas fa-passport"></i> Travel Requirements</h3>
+                <p><strong>Visa Requirements:</strong> {{ itinerary.visa_requirements }}</p>
+                <p><strong>Local Customs:</strong> {{ itinerary.local_customs }}</p>
+            </div>
+            
+            <h2>Daily Itinerary</h2>
+            {% for day in itinerary.daily_plans %}
+                <div class="day-card">
+                    <div class="day-header">
+                        Day {{ day.day }} - {{ day.date }}
+                    </div>
+                    {% for activity in day.activities %}
+                        <div class="activity">
+                            <div class="activity-time">{{ activity.time }}</div>
+                            <div class="activity-content">
+                                <div class="activity-description">{{ activity.description }}</div>
+                                <div class="activity-location"><i class="fas fa-map-marker-alt"></i> {{ activity.location }}</div>
+                                <div class="activity-meta">
+                                    <span>{{ activity.category }}</span>
+                                    <span>${{ activity.estimated_cost }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            
+            <h2>Budget Breakdown</h2>
+            <table class="budget-table">
+                <tr>
+                    <th>Category</th>
+                    <th>Amount</th>
+                </tr>
+                {% for category, amount in itinerary.budget_breakdown.items() %}
+                    <tr {% if category == 'Total' %}class="total-row"{% endif %}>
+                        <td>{{ category }}</td>
+                        <td>${{ amount }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            
+            <h2>Travel Tips</h2>
+            <ul class="tips-list">
+                {% for tip in itinerary.travel_tips %}
+                    <li>{{ tip }}</li>
+                {% endfor %}
+            </ul>
+            
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <a href="/download/{{ itinerary_id }}" class="btn btn-accent">
+                    <i class="fas fa-download"></i> Download as PDF
+                </a>
+                
+                {% if session.user_id %}
+                <a href="/history" class="btn">
+                    <i class="fas fa-history"></i> View History
+                </a>
+                {% else %}
+                <a href="/register" class="btn">
+                    <i class="fas fa-user-plus"></i> Sign Up to Save
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+        
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 TravelPlan AI. All rights reserved.</p>
+            <p>Visit my GitHub: <a href="https://github.com/Louis-Li-dev" target="_blank">GitHub Profile</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>

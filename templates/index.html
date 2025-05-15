@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Itinerary Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <i class="fas fa-plane"></i>
+                    TravelPlan AI
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        {% if session.user_id %}
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li><a href="/history">History</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                        {% else %}
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="/register">Register</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Plan Your Perfect Trip</h1>
+                <p>Generate a professional travel itinerary with our AI-powered tool. Get detailed daily plans, budget breakdowns, and travel tips.</p>
+                {% if not session.user_id %}
+                <div style="margin-top: 20px;">
+                    <a href="/register" class="btn btn-accent">Sign Up</a>
+                    <a href="/login" class="btn" style="margin-left: 10px;">Login</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        <div class="card">
+            <h2>Create Your Itinerary</h2>
+            <form action="/generate" method="post" id="itinerary-form">
+                <div class="form-group">
+                    <label for="home_country">Home Country:</label>
+                    <select id="home_country" name="home_country" required>
+                        <option value="" disabled selected>Select your home country</option>
+                        {% for country in countries %}
+                        <option value="{{ country }}">{{ country }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="destination">Destination:</label>
+                    <input type="text" id="destination" name="destination" required placeholder="e.g., Paris, France">
+                </div>
+                
+                <div class="form-group">
+                    <label for="duration">Duration (days):</label>
+                    <input type="number" id="duration" name="duration" min="1" max="30" required placeholder="e.g., 7">
+                </div>
+                
+                <div class="form-group">
+                    <label for="budget">Budget:</label>
+                    <input type="text" id="budget" name="budget" required placeholder="e.g., $2000">
+                </div>
+                
+                <div class="form-group">
+                    <label for="interests">Interests (comma separated):</label>
+                    <textarea id="interests" name="interests" rows="3" placeholder="e.g., museums, food, hiking, local culture"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="style">Select PDF Style:</label>
+                    <select id="style" name="style" required>
+                        <option value="simple">Simple</option>
+                        <option value="detailed">Detailed</option>
+                        <option value="colorful">Colorful</option>
+                    </select>
+                </div>                
+                <div class="form-group">
+                    <label for="currency">Currency:</label>
+                    <select id="currency" name="currency" required>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <!-- Add other currencies as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="party_size">Party Size (Optional):</label>
+                    <input type="number" id="party_size" name="party_size" placeholder="Number of travelers" min="1">
+                </div>
+
+
+                <button type="submit" class="btn btn-primary btn-block" id="generate-btn">Generate Itinerary</button>
+            </form>
+            
+            <div class="progress-container" style="display: none;" id="progress-container">
+                <div class="progress-bar animated" id="progress-bar"></div>
+                <div class="progress-text" id="progress-text">Generating your itinerary...</div>
+            </div>
+            
+            {% if not session.user_id %}
+            <div class="auth-footer" style="margin-top: 20px; text-align: center;">
+                <p>Create an account to save and manage your itineraries!</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Generating your perfect itinerary...</div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 TravelPlan AI. All rights reserved.</p>
+            <p>Visit my GitHub: <a href="https://github.com/Louis-Li-dev" target="_blank">GitHub Profile</a></p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('itinerary-form');
+            const generateBtn = document.getElementById('generate-btn');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const progressContainer = document.getElementById('progress-container');
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading overlay
+                loadingOverlay.classList.add('active');
+                
+                // Show progress bar
+                progressContainer.style.display = 'block';
+                
+                // Simulate progress
+                let progress = 0;
+                const interval = setInterval(function() {
+                    progress += Math.random() * 10;
+                    if (progress > 100) progress = 100;
+                    
+                    progressBar.style.width = progress + '%';
+                    progressText.textContent = `Generating your itinerary... ${Math.round(progress)}%`;
+                    
+                    if (progress === 100) {
+                        clearInterval(interval);
+                        // Submit the form after progress reaches 100%
+                        setTimeout(function() {
+                            form.submit();
+                        }, 500);
+                    }
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>
