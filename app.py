@@ -534,6 +534,7 @@ def generate():
                 'total_budget': total_budget,
                 'budget': budget,
                 'interests': interests,
+                'party_size': party_size,
                 'itinerary_data': json.dumps(itinerary_data),
                 'created_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             }

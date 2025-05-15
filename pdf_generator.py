@@ -6,7 +6,7 @@ from reportlab.lib.units import inch
 import os
 import tempfile
 
-def create_pdf(itinerary_data, destination, duration, budget, interests):
+def create_pdf(itinerary_data, destination, duration, budget, interests, party_size):
     """Create a PDF file from the itinerary data"""
     
     # Create a temporary file
@@ -42,6 +42,7 @@ def create_pdf(itinerary_data, destination, duration, budget, interests):
     content.append(Paragraph(f"Duration: {duration} days", wrapped_style))
     content.append(Paragraph(f"Budget: {budget}", wrapped_style))
     content.append(Paragraph(f"Interests: {interests}", wrapped_style))
+    content.append(Paragraph(f"Party Size: {party_size}", wrapped_style))
     content.append(Spacer(1, 0.25*inch))
     
     # Daily plans
