@@ -2,6 +2,9 @@
 
 A Flask application that uses Google's Gemini API to generate professional travel itineraries with fee calculations by category. The app allows users to download their itineraries as PDFs and keeps a history of generated itineraries.
 
+[*Demo Video*](https://youtu.be/8zmszxsehj4)
+
+
 ## Features
 
 - Generate travel itineraries using Google's Gemini API with Google Search capabilities
