@@ -20,10 +20,7 @@ A Flask application that uses Google's Gemini API to generate professional trave
    \`\`\`
    pip install -r requirements.txt
    \`\`\`
-3. Set your Google API key as an environment variable:
-   \`\`\`
-   export GOOGLE_API_KEY=your_api_key_here
-   \`\`\`
+3. Create a file named `.env` under the root directory and put your Goolge AI Studio API key in it as described in `.env.example`. 
 
 ## Usage
 
@@ -36,6 +33,7 @@ A Flask application that uses Google's Gemini API to generate professional trave
 4. View your generated itinerary with time zone information and flight details
 5. Download the itinerary as a PDF
 6. Access your history of generated itineraries
+
 
 ## Requirements
 
