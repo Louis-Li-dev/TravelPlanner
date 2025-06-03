@@ -2,9 +2,10 @@
 
 A Flask application that uses Google's Gemini API to generate professional travel itineraries with fee calculations by category. The app allows users to download their itineraries as PDFs and keeps a history of generated itineraries.
 
-[*Demo Video*](https://youtu.be/8zmszxsehj4)
+- [*Demo Video*](https://youtu.be/8zmszxsehj4)
+- [*Temporarily Hosted Demo Website*](https://travelplanner-dwsp.onrender.com/)
+- [*PDF*](https://github.com/Louis-Li-dev/TravelPlanner/blob/main/solution_challenge_PDF.pdf)
 
-[*Temporarily Hosted Demo Website*](https://travelplanner-dwsp.onrender.com/)
 
 ## Features
 
@@ -45,6 +46,13 @@ A Flask application that uses Google's Gemini API to generate professional trave
 | Homepage | Result Page |
 |----------|-------------|
 | ![Homepage](https://github.com/user-attachments/assets/59bfed26-facd-4a18-81cf-c39cea96bfed) | ![Result Page](https://github.com/user-attachments/assets/7eaac88c-860a-4339-a91c-8bf746baab41) |
+## Design
+| Diagram Type          | Image |
+|-----------------------|-------|
+| **Architecture Diagram** | ![Architecture Diagram](https://github.com/user-attachments/assets/2c00d2bf-9eb8-4276-acf0-e9fb2596c5a9) |
+| **Flow Diagram**         | ![Flow Diagram](https://github.com/user-attachments/assets/16d37362-1e64-42ad-ba1f-11b1c7fcc6f2) |
+| **Wireframe**            | ![Wireframe](https://github.com/user-attachments/assets/5a989329-5da8-427d-8ffe-cf4db07efcc9) |
+
 
 
 ## Requirements
