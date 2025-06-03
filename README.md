@@ -4,6 +4,7 @@ A Flask application that uses Google's Gemini API to generate professional trave
 
 [*Demo Video*](https://youtu.be/8zmszxsehj4)
 
+[*temporarily hosted demo website*](https://travelplanner-dwsp.onrender.com/)
 
 ## Features
 
