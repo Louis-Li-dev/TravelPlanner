@@ -25,9 +25,9 @@ A Flask application that uses Google's Gemini API to generate professional trave
 
 1. Clone this repository
 2. Install the required packages:
-   \`\`\`
+   ```bash
    pip install -r requirements.txt
-   \`\`\`
+   ```
 3. Create a file named `.env` under the root directory and put your Goolge AI Studio API key in it as described in `.env.example`. 
 
 ## Usage
